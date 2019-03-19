@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: web-todo-list
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: gilju
+Implementation-Vendor-Id: com.d2vfactory
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_121
+Main-Class: ${start-class}
+

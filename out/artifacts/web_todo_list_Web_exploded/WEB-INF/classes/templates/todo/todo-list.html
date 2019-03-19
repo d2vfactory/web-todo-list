@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="fragments/layout">
+
+<body>
+
+<div layout:fragment="page-title">
+    <p><h4>할일 목록</h4></p>
+</div>
+
+<div layout:fragment="page-content">
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+           id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+           th:text="|PageSize ${todoPage.size}|">
+
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" th:href="@{/todo(size=2)}">2</a>
+            <a class="dropdown-item" th:href="@{/todo(size=5)}">5</a>
+            <a class="dropdown-item" th:href="@{/todo(size=10)}">10</a>
+        </div>
+    </div>
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+            <th scope="col" th:text="ID"/>
+            <th scope="col" th:text="할일"/>
+            <th scope="col" th:text="작성일시"/>
+            <th scope="col" th:text="최종수정일시"/>
+            <th scope="col" th:text="상태"/>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo : ${todoPage.content}">
+            <td th:text="${todo.id}"/>
+            <td>
+                <a th:href="@{/todo/{id}(id=${todo.id})}">
+                    <span th:text="${todo.contentAndReferenced}"/>
+                </a>
+            </td>
+            <td th:text="${todo.createDate}"/>
+            <td th:text="${todo.updateDate}"/>
+            <td th:text="${todo.statusName}"/>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"
+                th:if="${todoPage.totalPages > 0}"
+                th:each="pageNumber : ${pageNumbers}">
+
+                <a class="page-link"
+                   th:href="@{/todo(size=${todoPage.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}">
+                </a>
+
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+
+</html>
+

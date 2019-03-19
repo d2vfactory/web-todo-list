@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="fragments/layout">
+
+<body>
+
+<div layout:fragment="page-title">
+    <p><h4>할일 생성</h4></p>
+</div>
+
+<div layout:fragment="page-content">
+    <form id="frmCreate" name="frmCreate" method="POST" th:action="@{/todo/create}">
+        <div class="row">
+            <div class="col-lg">
+                <span>할일 정보</span>
+                <table class="table table-sm">
+                    <tr>
+                        <td th:width="50px">할일</td>
+                        <td>
+                            <input type="text" id="content" name="content"/>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="createTodo();">생성</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <span>새로운 할일</span>
+                <table class="table table-sm table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col"/>
+                        <th scope="col" th:text="ID"/>
+                        <th scope="col" th:text="할일"/>
+                        <th scope="col" th:text="상태"/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="newTodo : ${newTodoList}">
+                        <td>
+                            <input type="checkbox" name="referenceIds" th:value="${newTodo.id}"/>
+                        </td>
+                        <td th:text="${newTodo.id}"/>
+                        <td th:text="${newTodo.content}"/>
+                        <td th:text="${newTodo.statusName}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+    <script>
+        function createTodo() {
+            var content = $("#content").val();
+            if (content.trim().length == 0) {
+                alert("할일 내용을 입력해주세요.");
+            } else {
+                $("#frmCreate").submit();
+            }
+        }
+    </script>
+</div>
+
+
+</body>
+</html>
+

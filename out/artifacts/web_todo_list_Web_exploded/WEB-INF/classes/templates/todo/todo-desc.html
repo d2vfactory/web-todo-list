@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="fragments/layout">
+
+<body>
+
+<div layout:fragment="page-title">
+    <p>
+    <h4>
+        <a th:href="@{/todo/{id}(id=${todo.id})}">
+            <button type="button" class="btn btn-secondary btn-sm">할일 상세</button>
+        </a>
+        <a th:href="@{/todo/{id}/reference(id=${todo.id})}">
+            <button type="button" class="btn btn-secondary btn-sm">참조 수정</button>
+        </a>
+    </h4>
+    </p>
+</div>
+
+<div layout:fragment="page-content">
+    <div class="row" style="width:1024px">
+        <div class="col-lg">
+            <span>할일 정보</span>
+            <table class="table table-sm table-dark">
+                <tr>
+                    <td>ID</td>
+                    <td th:text="${todo.id}"/>
+                </tr>
+                <tr>
+                    <form method="POST" th:action="@{/todo/{id}(id=${todo.id})}">
+                        <td>할일</td>
+                        <td>
+                            <input type="text" id="content" name="content" th:value="${todo.content}"/>
+                            <button type="submit" class="btn btn-secondary btn-sm">변경</button>
+                        </td>
+                    </form>
+                </tr>
+                <tr>
+                    <td>작성일시</td>
+                    <td th:text="${todo.createDate}"/>
+                </tr>
+                <tr>
+                    <td>수정일시</td>
+                    <td th:text="${todo.updateDate}"/>
+                </tr>
+                <tr>
+                    <input type="hidden" id="cntReferenceActive" th:value="${cntReferenceActive}"/>
+                    <form id="frmStatus" name="frmStatus" method="POST"
+                          th:action="@{/todo/{id}/status(id=${todo.id})}">
+                        <td>상태</td>
+                        <td>
+                            <select id="status" name="status">
+                                <option th:each="s : ${statusMap}"
+                                        th:value="${s.key}"
+                                        th:text="${s.value}"
+                                        th:selected="${s.key == todo.status}">
+                                </option>
+                            </select>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="updateStatus();">변경</button>
+                        </td>
+                    </form>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-sm">
+            <span>
+                참조한 할일
+            </span>
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" th:text="ID"/>
+                    <th scope="col" th:text="할일"/>
+                    <th scope="col" th:text="상태"/>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="referenceTodo : ${todo.reference}">
+                    <td th:text="${referenceTodo.id}"/>
+                    <td>
+                        <a th:href="@{/todo/{id}(id=${referenceTodo.id})}">
+                            <span th:text="${referenceTodo.content}"/>
+                        </a>
+                    </td>
+                    <td th:text="${referenceTodo.statusName}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-sm">
+            <span>참조된 할일</span>
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" th:text="ID"/>
+                    <th scope="col" th:text="할일"/>
+                    <th scope="col" th:text="상태"/>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="referenceTodo : ${todo.referenced}">
+                    <td th:text="${referenceTodo.id}"/>
+                    <td>
+                        <a th:href="@{/todo/{id}(id=${referenceTodo.id})}">
+                            <span th:text="${referenceTodo.content}"/>
+                        </a>
+                    </td>
+                    <td th:text="${referenceTodo.statusName}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function updateStatus() {
+            var cntRefernce = $("#cntReferenceActive").val();
+            if (cntRefernce > 0) {
+                alert("참조한 할일 중에 완료 되지 않은 할일이 존재합니다.");
+            } else {
+                $("#frmStatus").submit();
+            }
+        }
+    </script>
+
+</div>
+</body>
+</html>
+
