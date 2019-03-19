@@ -82,10 +82,7 @@ public class TodoService {
 
         ResponseEntity<TodoDTO> responseEntity = restTemplate.getForEntity(uri.toString(), TodoDTO.class);
 
-        if (responseEntity.getStatusCode() != HttpStatus.OK)
-            throw new RuntimeException(responseEntity.getBody().getMessage());
-
-        return responseEntity.getBody();
+        return parseResponseEntity(responseEntity);
     }
 
     public TodoDTO createTodo(String content, Long[] referenceIds) {
@@ -115,10 +112,7 @@ public class TodoService {
 
         ResponseEntity<TodoDTO> responseEntity = executeCommand(uri.toString(), todoForm, HttpMethod.PUT);
 
-        if (responseEntity.getStatusCode() != HttpStatus.OK)
-            throw new RuntimeException(responseEntity.getBody().getMessage());
-
-        return responseEntity.getBody();
+        return parseResponseEntity(responseEntity);
     }
 
     public TodoDTO updateStatus(Long id, String status) {
@@ -131,10 +125,7 @@ public class TodoService {
         ResponseEntity<TodoDTO> responseEntity = executeCommand(uri.toString(), todoForm, HttpMethod.PUT);
         log.info("# responseEntity : {}", responseEntity);
 
-        if (responseEntity.getStatusCode() != HttpStatus.OK)
-            throw new RuntimeException(responseEntity.getBody().getMessage());
-
-        return responseEntity.getBody();
+        return parseResponseEntity(responseEntity);
     }
 
     public TodoDTO addReference(Long id, Long[] referenceIds) {
@@ -149,10 +140,7 @@ public class TodoService {
 
         ResponseEntity<TodoDTO> responseEntity = executeCommand(uri.toString(), form, HttpMethod.PUT);
 
-        if (responseEntity.getStatusCode() != HttpStatus.OK)
-            throw new RuntimeException(responseEntity.getBody().getMessage());
-
-        return responseEntity.getBody();
+        return parseResponseEntity(responseEntity);
     }
 
     public TodoDTO removeReference(Long id, Long[] referenceIds) {
@@ -167,6 +155,10 @@ public class TodoService {
 
         ResponseEntity<TodoDTO> responseEntity = executeCommand(uri.toString(), form, HttpMethod.DELETE);
 
+        return parseResponseEntity(responseEntity);
+    }
+
+    private TodoDTO parseResponseEntity(ResponseEntity<TodoDTO> responseEntity){
         if (responseEntity.getStatusCode() != HttpStatus.OK)
             throw new RuntimeException(responseEntity.getBody().getMessage());
 

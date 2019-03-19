@@ -72,8 +72,9 @@ public class TodoServiceTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void getTodo12_error() {
-        TodoDTO todo = service.getTodo(12L);
+    public void getTodo_error() {
+        Long maxValue = Long.MAX_VALUE;
+        TodoDTO todo = service.getTodo(maxValue);
 
         log.info("# todo :{}", todo);
     }

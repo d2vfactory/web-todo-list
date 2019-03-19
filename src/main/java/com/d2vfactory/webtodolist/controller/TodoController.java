@@ -48,7 +48,7 @@ public class TodoController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        return "/todo/todo-list";
+        return "todo/todo-list";
     }
 
     @GetMapping("/form")
@@ -58,7 +58,7 @@ public class TodoController {
 
         model.addAttribute("newTodoList", newTodoList);
 
-        return "/todo/todo-form";
+        return "todo/todo-form";
     }
 
     @PostMapping("/create")
@@ -85,7 +85,7 @@ public class TodoController {
         model.addAttribute("todo", todo);
         model.addAttribute("statusMap", statusMap);
         model.addAttribute("cntReferenceActive", cntReferenceActive);
-        return "/todo/todo-desc";
+        return "todo/todo-desc";
     }
 
 
@@ -115,7 +115,7 @@ public class TodoController {
         model.addAttribute("todo", todo);
         model.addAttribute("newTodoList", newTodoList);
 
-        return "/todo/todo-reference";
+        return "todo/todo-reference";
     }
 
 
