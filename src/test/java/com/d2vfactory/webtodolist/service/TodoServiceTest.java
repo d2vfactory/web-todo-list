@@ -3,7 +3,6 @@ package com.d2vfactory.webtodolist.service;
 import com.d2vfactory.webtodolist.config.RestTemplateResponseErrorHandler;
 import com.d2vfactory.webtodolist.model.dto.TodoDTO;
 import com.d2vfactory.webtodolist.model.dto.TodoListDTO;
-import com.d2vfactory.webtodolist.model.form.TodoForm;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,7 +89,13 @@ public class TodoServiceTest {
                 .hasFieldOrPropertyWithValue("id", 2L)
                 .hasFieldOrPropertyWithValue("content", "할일 수정");
 
-        log.info("todo : {}", todo);
+        todo = service.updateContent(id, "빨래");
+
+        assertThat(todo)
+                .hasFieldOrPropertyWithValue("id", 2L)
+                .hasFieldOrPropertyWithValue("content", "빨래");
+
+
     }
 
     @Test
@@ -100,6 +105,12 @@ public class TodoServiceTest {
         String status = "COMPLETED";
 
         TodoDTO todo = service.updateStatus(id, status);
+        assertThat(todo)
+                .hasFieldOrPropertyWithValue("status","COMPLETED");
+
+        todo = service.updateStatus(id, "ACTIVE");
+        assertThat(todo)
+                .hasFieldOrPropertyWithValue("status","ACTIVE");
 
         log.info("todo : {}", todo);
 
@@ -120,7 +131,7 @@ public class TodoServiceTest {
     }
 
     @Test
-    public void todo2_addReference_todo1to3() {
+    public void todo2_addReference_todo1to3_remove() {
         Long id = 2L;
         Long[] referenceIds = {1L, 2L, 3L};
         // 2는 제외하고 1,3이 추가됨
@@ -129,27 +140,20 @@ public class TodoServiceTest {
         assertThat(todo.getReference())
                 .extracting("id")
                 .containsExactly(1L, 3L);
-    }
 
-    @Test
-    public void todo2_removeReference_todo1to3() {
-        Long id = 2L;
-        Long[] referenceIds = {1L, 2L, 3L};
-
-        TodoDTO todo = service.removeReference(id, referenceIds);
+        todo = service.removeReference(id, referenceIds);
 
         if (todo.getReference().size() > 0) {
             assertThat(todo.getReference())
                     .extracting("id")
                     .doesNotContain(1L, 2L, 3L);
         }
-
     }
 
     @Test
     public void createTodo_reference() {
-        String content = "새로운할일";
-        Long[] referenceIds = {1L, 2L, 3L};
+        String content = "숙제하기";
+        Long[] referenceIds = {1L};
 
         TodoDTO todo = service.createTodo(content, referenceIds);
 
@@ -161,7 +165,7 @@ public class TodoServiceTest {
 
     @Test
     public void createTodo_noReference() {
-        String content = "새로운할일-참조없음";
+        String content = "집에가기";
 
         TodoDTO todo = service.createTodo(content, new Long[] {});
 
