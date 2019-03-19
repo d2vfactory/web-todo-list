@@ -48,6 +48,7 @@
     - $ mvn clean package
     - $ cd target
     - $ jar -jar web-todo-list-0.0.1-SNAPSHOT.jar
+    - 웹 브라우저 : http://127.0.0.1:8080/
 
 
 #### 화면
