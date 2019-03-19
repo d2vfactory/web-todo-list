@@ -7,6 +7,7 @@ import com.d2vfactory.webtodolist.model.dto.TodoListDTO;
 import com.d2vfactory.webtodolist.model.form.TodoForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,8 +35,11 @@ public class TodoService {
                 .build();
     }
 
-    private String host = "127.0.0.1";
-    private String port = "8081";
+    @Value("${rest-todo-list.host}")
+    private String host;
+
+    @Value("${rest-todo-list.port}")
+    private String port;
 
     public Page<TodoDTO> getPageTodoList(Pageable pageable) {
 

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
@@ -33,8 +34,11 @@ public class TodoServiceTest {
     @Autowired
     private RestTemplateBuilder builder;
 
-    private String host = "127.0.0.1";
-    private String port = "8081";
+    @Value("${rest-todo-list.host}")
+    private String host;
+
+    @Value("${rest-todo-list.port}")
+    private String port;
 
     private RestTemplate restTemplate;
 
@@ -99,7 +103,6 @@ public class TodoServiceTest {
         log.info("todo : {}", todo);
 
     }
-
 
     @Test
     public void getAllActiveTodo() {

@@ -1,9 +1,7 @@
 package com.d2vfactory.webtodolist.model.dto;
 
 import lombok.Data;
-import org.springframework.hateoas.core.Relation;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
