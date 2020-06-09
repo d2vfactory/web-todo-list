@@ -36,9 +36,6 @@
 - spring-data-commons
     - Pageable
 
-#### DB
-- h2db (mem) 
-
 #### 구동 방법
 - rest-api 기반의 웹어플리케이션이기 때문에 rest-todo-list를 먼저 구동한다.
     - rest-todo-list application 서버 정보 적용
@@ -51,6 +48,7 @@
     - $ mvn clean package
     - $ cd target
     - $ jar -jar web-todo-list-0.0.1-SNAPSHOT.jar
+    - 웹 브라우저 : http://127.0.0.1:8080/
 
 
 #### 화면
