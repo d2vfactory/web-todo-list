@@ -62,11 +62,11 @@ public class TodoController {
     }
 
     @PostMapping("/create")
-    public String createTodo(Model model, @ModelAttribute TodoForm todoForm)  {
+    public String createTodo(Model model, @ModelAttribute TodoForm todoForm) {
 
         TodoDTO todoDTO = service.createTodo(todoForm.getContent(), todoForm.getReferenceIds());
-        
-        return "redirect:/todo/"+todoDTO.getId();
+
+        return "redirect:/todo/" + todoDTO.getId();
     }
 
     @GetMapping("/{id}")
@@ -82,9 +82,14 @@ public class TodoController {
                 .stream().filter(x -> x.getStatus().equals("ACTIVE"))
                 .count();
 
+        long cntReferencedCompleted = todo.getReferenced()
+                .stream().filter(x -> x.getStatus().equals("COMPLETED"))
+                .count();
+
         model.addAttribute("todo", todo);
         model.addAttribute("statusMap", statusMap);
         model.addAttribute("cntReferenceActive", cntReferenceActive);
+        model.addAttribute("cntReferencedCompleted", cntReferencedCompleted);
         return "todo/todo-desc";
     }
 

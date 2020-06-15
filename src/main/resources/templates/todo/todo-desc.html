@@ -47,6 +47,7 @@
                 </tr>
                 <tr>
                     <input type="hidden" id="cntReferenceActive" th:value="${cntReferenceActive}"/>
+                    <input type="hidden" id="cntReferencedCompleted" th:value="${cntReferencedCompleted}"/>
                     <form id="frmStatus" name="frmStatus" method="POST"
                           th:action="@{/todo/{id}/status(id=${todo.id})}">
                         <td>상태</td>
@@ -118,11 +119,22 @@
 
     <script>
         function updateStatus() {
-            var cntRefernce = $("#cntReferenceActive").val();
-            if (cntRefernce > 0) {
-                alert("참조한 할일 중에 완료 되지 않은 할일이 존재합니다.");
+            var status = $("#status").val();
+
+            if (status == 'COMPLETED') {
+                var cntRefernce = $("#cntReferenceActive").val();
+                if (cntRefernce > 0) {
+                    alert("참조한 할일 중에 완료 되지 않은 할일이 존재합니다.");
+                } else {
+                    $("#frmStatus").submit();
+                }
             } else {
-                $("#frmStatus").submit();
+               var cntRefernced = $("#cntReferencedCompleted").val();
+                if (cntRefernced > 0) {
+                    alert("참조된 할일 중에 완료된 할일이 존재합니다.");
+                } else {
+                    $("#frmStatus").submit();
+                }
             }
         }
     </script>
